@@ -11,6 +11,7 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
+import androidx.navigation.compose.rememberNavController
 import com.soultd.musclemice.ui.theme.MuscleMiceTheme
 
 class MainActivity : ComponentActivity() {
@@ -18,7 +19,14 @@ class MainActivity : ComponentActivity() {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
         setContent {
-            MuscleMiceTheme {
+            MuscleMiceTheme {  //Aplica o tema a UI
+
+                val navController = rememberNavController() //Cria e lembra um NavControl
+
+                //NavHost(navController = navController, startDestination = "splash") {
+
+                //}
+
                 Scaffold(modifier = Modifier.fillMaxSize()) { innerPadding ->
                     App(
                         modifier = Modifier.padding(innerPadding)
