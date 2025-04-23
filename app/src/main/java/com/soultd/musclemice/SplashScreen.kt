@@ -17,32 +17,34 @@ import androidx.navigation.NavController
 import kotlinx.coroutines.delay
 
 @Composable
+fun SplashScreen(navController: NavController) {
+    Box() {
+        BackgroundSplash() // Chamada da função de splash
 
-fun SplashScreen(navController: NavController){
-    Box(modifier = Modifier.fillMaxSize().background(Color(0xFF0F0F23))) { //Preenche toda a tela
-
-        BackgroundSplash()
-        LaunchedEffect(Unit) {
+        LaunchedEffect(Unit) {  // Dispara um efeito quando a tela entra em composição
             delay(2500)
-            navController.navigate("login") {
-                popUpTo("splash") { inclusive = true }
+            navController.navigate("login") { // navega para a tela de login
+                popUpTo("splash") { inclusive = true } // remove a Splash da pilha de navegação
             }
         }
     }
-
 }
 
-@Preview(showBackground = true)
+@Preview(showBackground = true) // permite visualizar no Android Studio Preview
 @Composable
-
-fun BackgroundSplash() {
-    Box(modifier = Modifier.fillMaxSize()) { //Preenche toda a tela
+fun BackgroundSplash() { // Função responsável por desenhar o conteúdo visual da splash
+    Box(
+        modifier = Modifier
+            .fillMaxSize()
+            .background(Color(0xFF0F0F23))
+    ) { // Container ocupando a tela toda e com fundo azul
         Image(
-            painter = painterResource(id = R.drawable.mice_icon_purple),
-            contentDescription = null,
+            painter = painterResource(id = R.drawable.mice_icon_purple), // carrega a imagem da logo
+            contentDescription = null, // sem descrição de acessibilidade
             modifier = Modifier
-                .width(220.dp)
-                .align(Alignment.Center)
+                .width(220.dp) // define largura fixa da imagem
+                .align(Alignment.Center) // centraliza no meio da tela
         )
     }
 }
+

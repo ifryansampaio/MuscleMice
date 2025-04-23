@@ -35,3 +35,7 @@ val Typography = Typography(
     )
     */
 )
+
+val infomaFontFamily = FontFamily(
+    Font(R.font.infoma_bold, FontWeight.Bold)
+)

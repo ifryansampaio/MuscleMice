@@ -20,12 +20,22 @@ class MainActivity : ComponentActivity() {
                 val navController = rememberNavController() //Cria e lembra um NavControl
 
                 NavHost(navController = navController, startDestination = "splash") {
-                    composable(route = "splash") {
-                        SplashScreen(navController = navController)
-                    }
 
-                    composable(route = "login"){
-                        //LoginScreen()
+                    composable(route = "splash") { SplashScreen(navController = navController) }
+
+                    composable("login") {
+                        LoginScreen(
+                            onLoginClick = { email, senha ->
+
+                                // Se a verificação for bem-sucedido, navega pra tela principal:
+                                navController.navigate("home") {
+                                    popUpTo("login") { inclusive = true }
+                                }
+                            },
+                            onNavigateToRegister = {
+                                navController.navigate("register")
+                            }
+                        )
                     }
                 }
             }
