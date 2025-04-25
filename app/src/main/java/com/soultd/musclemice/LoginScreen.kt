@@ -1,34 +1,16 @@
 package com.soultd.musclemice
 
-import androidx.compose.foundation.background
-import androidx.compose.foundation.layout.Arrangement
-import androidx.compose.foundation.layout.Box
-import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.height
-import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.Image
-import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.background
+import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.material.Button
-import androidx.compose.material.ButtonDefaults
-import androidx.compose.material.Icon
-import androidx.compose.material.IconButton
-import androidx.compose.material.OutlinedTextField
-import androidx.compose.material.Text
-import androidx.compose.material.TextFieldDefaults
+import androidx.compose.material.*
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Email
 import androidx.compose.material.icons.filled.Lock
 import androidx.compose.material.icons.filled.Visibility
 import androidx.compose.material.icons.filled.VisibilityOff
-import androidx.compose.runtime.Composable
-import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
-import androidx.compose.runtime.saveable.rememberSaveable
-import androidx.compose.runtime.setValue
+import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Brush
@@ -37,29 +19,28 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.input.PasswordVisualTransformation
 import androidx.compose.ui.text.input.VisualTransformation
-import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.soultd.musclemice.ui.theme.infomaFontFamily
 
-
 @Composable
 fun LoginScreen(
-    onLoginClick: (String, String) -> Unit, //e-mail e senha pra logar
-    onNavigateToRegister: () -> Unit //navegar para a tela de cadastro
+    onLoginClick: (String, String) -> Unit,
+    onNavigateToRegister: () -> Unit
 ) {
-    LoginApp()
+    LoginApp(onLoginClick)
 }
 
-@Preview(showBackground = true)
+// Tela principal de login
 @Composable
-
-fun LoginApp () {
+fun LoginApp(
+    onLoginClick: (String, String) -> Unit = { _, _ -> } // função padrão pro preview
+) {
     var email by remember { mutableStateOf("") }
     var password by remember { mutableStateOf("") }
 
-    val gradientColors = listOf( //lista de cores pro gradient do fundo
+    val gradientColors = listOf(
         Color(0xFF0F0F23),
         Color(0xFF341A6E)
     )
@@ -67,154 +48,44 @@ fun LoginApp () {
     Box(
         modifier = Modifier
             .fillMaxSize()
-            .background(Brush.verticalGradient(gradientColors)) //aplicando gradient no fundo
-    ) { //cria um container na tela inteira, com fundo azul
-        Column ( //Os itens ficaram um abaixo do outro na tela
+            .background(Brush.verticalGradient(gradientColors))
+    ) {
+        Column(
             modifier = Modifier
                 .fillMaxSize()
                 .padding(16.dp),
-            horizontalAlignment = Alignment.CenterHorizontally, //Alinhamento no centro horizontalmente
-            verticalArrangement = Arrangement.Center //Arranjamento no centro verticalmente
+            horizontalAlignment = Alignment.CenterHorizontally,
+            verticalArrangement = Arrangement.Center
         ) {
             ImageLogo(R.drawable.mice_icon_purple)
             TextLogo()
-            //Chama o campo de email com valor atual e atualiza quando digitar
-            EmailTextField(email) {email = it}
-            PasswordTextField(password) {password = it}
-            LoginButton()
-
-
-        }
-    }
-}
-
-@Composable
-fun LoginButton() {
-    Button(
-        onClick = {},
-        modifier = Modifier
-            .fillMaxWidth()
-            .height(66.dp)
-            .padding(horizontal = 35.dp, vertical = 6.dp),
-        colors = ButtonDefaults.buttonColors(
-            backgroundColor = Color.White
-        ),
-        shape = RoundedCornerShape(50)
-    ) {
-        Text(
-            text = "LOGIN",
-            fontSize = 16.sp
-        )
-    }
-}
-
-@Composable
-fun PasswordTextField(value: String, onValueChange: (String) -> Unit) {
-
-    var isPasswordVisible by remember { mutableStateOf(false) } // Estado da visibilidade
-    val visualTransformation = if (isPasswordVisible) VisualTransformation.None else PasswordVisualTransformation()
-
-    OutlinedTextField(
-        value = value, // valor atual do campo
-        onValueChange = onValueChange, // função chamada quando o valor muda
-
-        modifier = Modifier
-            .fillMaxWidth() // ocupa a largura toda
-            .height(66.dp) // altura do campo
-            .padding(horizontal = 35.dp, vertical = 6.dp),
-
-        shape = RoundedCornerShape(50), // cantos arredondados
-
-        textStyle = TextStyle(
-            fontSize = 20.sp, // tamanho da fonte
-        ),
-
-        colors = TextFieldDefaults.outlinedTextFieldColors(
-            focusedBorderColor = Color.White, // borda ao focar
-            unfocusedBorderColor = Color.White, // borda padrão
-            textColor = Color.White, // cor do texto
-            placeholderColor = Color.White, // cor do texto do placeholder
-
-        ),
-
-        placeholder = {
-
-            Text(
-                text = "Password",
-                color = Color.White
-            )
-        },
-
-        leadingIcon = {
-            Icon(
-                imageVector = Icons.Default.Lock, // usa o ícone padrão de email
-                contentDescription = null, // descrição para acessibilidade
-                tint = Color.White, // cor branca pra combinar com o tema
-                modifier = Modifier
-                    .size(30.dp)
-                    .padding(start = 10.dp, top = 2.dp)
-            )
-        },
-
-        visualTransformation = visualTransformation,
-        trailingIcon = {
-            IconButton(onClick = { isPasswordVisible = !isPasswordVisible }) {
-                val icon = if (isPasswordVisible) Icons.Filled.Visibility else Icons.Filled.VisibilityOff
-                Icon(imageVector = icon, contentDescription = null, tint = Color.White)
+            EmailTextField(email) { email = it }
+            PasswordTextField(password) { password = it }
+            LoginButton(email, password) { email, pass ->
+                onLoginClick(email, pass) // só navega, sem autenticar
             }
         }
-
-    )
+    }
 }
 
+// Preview que funciona normalmente
+@Preview(showBackground = true, showSystemUi = true)
 @Composable
-fun EmailTextField(value: String, onValueChange: (String) -> Unit) {
-    OutlinedTextField(
-        value = value, // valor atual do campo
-        onValueChange = onValueChange, // função chamada quando o valor muda
+fun LoginAppPreview() {
+    LoginApp()
+}
 
-        modifier = Modifier
-            .fillMaxWidth() // ocupa a largura toda
-            .height(66.dp) // altura do campo
-            .padding(horizontal = 35.dp, vertical = 6.dp),
-
-        shape = RoundedCornerShape(50), // cantos arredondados
-
-        textStyle = TextStyle(
-            fontSize = 20.sp, // tamanho da fonte
-        ),
-
-        colors = TextFieldDefaults.outlinedTextFieldColors(
-            focusedBorderColor = Color.White, // borda ao focar
-            unfocusedBorderColor = Color.White, // borda padrão
-            textColor = Color.White, // cor do texto
-            placeholderColor = Color.White, // cor do texto do placeholder
-
-        ),
-
-        placeholder = {
-
-            Text(
-                text = "Email",
-                color = Color.White
-            )
-        },
-
-        leadingIcon = {
-            Icon(
-                imageVector = Icons.Default.Email, // usa o ícone padrão de email
-                contentDescription = null, // descrição para acessibilidade
-                tint = Color.White, // cor branca pra combinar com o tema
-
-                modifier = Modifier
-                    .size(30.dp)
-                    .padding(start = 10.dp, top = 2.dp)
-            )
-        }
+// Logo do app
+@Composable
+fun ImageLogo(resId: Int) {
+    Image(
+        painter = painterResource(id = resId),
+        contentDescription = null,
+        modifier = Modifier.height(120.dp)
     )
 }
 
-
+// Texto "MuscleMice" com fonte personalizada
 @Composable
 fun TextLogo() {
     Text(
@@ -225,11 +96,96 @@ fun TextLogo() {
     )
 }
 
+// Campo de email
 @Composable
-fun ImageLogo(resId: Int) {
-    Image(painter = painterResource(id = resId),
-        contentDescription = null,
+fun EmailTextField(value: String, onValueChange: (String) -> Unit) {
+    OutlinedTextField(
+        value = value,
+        onValueChange = onValueChange,
         modifier = Modifier
-            .height(120.dp)
+            .fillMaxWidth()
+            .height(66.dp)
+            .padding(horizontal = 35.dp, vertical = 6.dp),
+        shape = RoundedCornerShape(50),
+        textStyle = TextStyle(fontSize = 20.sp),
+        colors = TextFieldDefaults.outlinedTextFieldColors(
+            focusedBorderColor = Color.White,
+            unfocusedBorderColor = Color.White,
+            textColor = Color.White,
+            placeholderColor = Color.White
+        ),
+        placeholder = { Text("Email", color = Color.White) },
+        leadingIcon = {
+            Icon(
+                imageVector = Icons.Default.Email,
+                contentDescription = null,
+                tint = Color.White,
+                modifier = Modifier.size(30.dp).padding(start = 10.dp, top = 2.dp)
+            )
+        }
     )
+}
+
+// Campo de senha com botão de mostrar/ocultar
+@Composable
+fun PasswordTextField(value: String, onValueChange: (String) -> Unit) {
+    var isPasswordVisible by remember { mutableStateOf(false) }
+
+    OutlinedTextField(
+        value = value,
+        onValueChange = onValueChange,
+        modifier = Modifier
+            .fillMaxWidth()
+            .height(66.dp)
+            .padding(horizontal = 35.dp, vertical = 6.dp),
+        shape = RoundedCornerShape(50),
+        textStyle = TextStyle(fontSize = 20.sp),
+        colors = TextFieldDefaults.outlinedTextFieldColors(
+            focusedBorderColor = Color.White,
+            unfocusedBorderColor = Color.White,
+            textColor = Color.White,
+            placeholderColor = Color.White
+        ),
+        placeholder = { Text("Password", color = Color.White) },
+        leadingIcon = {
+            Icon(
+                imageVector = Icons.Default.Lock,
+                contentDescription = null,
+                tint = Color.White,
+                modifier = Modifier.size(30.dp).padding(start = 10.dp, top = 2.dp)
+            )
+        },
+        visualTransformation = if (isPasswordVisible) VisualTransformation.None else PasswordVisualTransformation(),
+        trailingIcon = {
+            IconButton(onClick = { isPasswordVisible = !isPasswordVisible }) {
+                Icon(
+                    imageVector = if (isPasswordVisible) Icons.Filled.Visibility else Icons.Filled.VisibilityOff,
+                    contentDescription = null,
+                    tint = Color.White
+                )
+            }
+        }
+    )
+}
+
+// Botão que chama apenas a função de navegação
+@Composable
+fun LoginButton(
+    email: String,
+    password: String,
+    onLoginClick: (String, String) -> Unit
+) {
+    Button(
+        onClick = {
+            onLoginClick(email, password) // navega pra próxima tela
+        },
+        modifier = Modifier
+            .fillMaxWidth()
+            .height(66.dp)
+            .padding(horizontal = 35.dp, vertical = 6.dp),
+        colors = ButtonDefaults.buttonColors(backgroundColor = Color.White),
+        shape = RoundedCornerShape(50)
+    ) {
+        Text(text = "LOGIN", fontSize = 16.sp)
     }
+}
