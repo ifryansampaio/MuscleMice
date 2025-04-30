@@ -199,7 +199,7 @@ fun LoginButton(
 @Composable
 fun SignUpButton(onClick: () -> Unit) {
     Text(
-        text = "Don't have an account? Sing Up",
+        text = "Don't have an account? Sign Up",
         color = Color.White,
         fontSize = 14.sp,
         modifier = Modifier
