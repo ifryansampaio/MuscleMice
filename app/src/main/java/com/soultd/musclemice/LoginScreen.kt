@@ -24,7 +24,18 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.navigation.NavController
 import com.soultd.musclemice.ui.theme.infomaFontFamily
+
+@Composable
+fun LoginScreen(navController: NavController) {
+    LoginApp(onLoginClick = { _, _ ->
+        // Navega diretamente para a Home
+        navController.navigate("home") {
+            popUpTo("login") { inclusive = true }
+        }
+    })
+}
 
 @Composable
 fun LoginScreen(
