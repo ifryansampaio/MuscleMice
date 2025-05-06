@@ -14,6 +14,9 @@ fun AppNavigation() {
         composable("splash") { SplashScreen(navController) }
         composable("login") { LoginScreen(navController) }
         composable("register") { RegisterScreen(navController) }
-        // composable("home") { HomeScreen(navController) }
+        composable("home") { HomeScreen(navController) }
+        //composable("start_workout") { StartWorkoutScreen(navController) }
+        //composable("series_timer") { SeriesTimerScreen(navController) }
+
     }
 }

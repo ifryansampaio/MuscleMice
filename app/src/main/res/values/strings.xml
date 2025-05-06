@@ -5,4 +5,6 @@
     <string name="title_activity_register_screen">RegisterScreen</string>
     <string name="title_activity_home_screen">HomeScreen</string>
     <string name="title_activity_app_navigation">AppNavigation</string>
+    <string name="title_activity_bottom_nav_item">BottomNavItem</string>
+    <string name="title_activity_bottom_navigator_bar">BottomNavigatorBar</string>
 </resources>
