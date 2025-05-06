@@ -17,18 +17,30 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.navigation.NavController
+import androidx.navigation.compose.rememberNavController
 
 @Composable
-fun SignUpScreen(
-    onSignUpClick: (String, String, String) -> Unit,
-    onNavigateToLogin: () -> Unit
-) {
-    SignUpApp(onSignUpClick = onSignUpClick, onNavigateToLogin = onNavigateToLogin)
+fun RegisterScreen(navController: NavController) {
+    RegisterApp(
+        onRegisterClick = { name, email, password ->
+            // Simula o registro e navega para a tela Home
+            navController.navigate("home") {
+                popUpTo("register") { inclusive = true } // remove a tela de registro da stack
+            }
+        },
+        onNavigateToLogin = {
+            // Vai para a tela de login
+            navController.navigate("login") {
+                popUpTo("register") { inclusive = true }
+            }
+        }
+    )
 }
 
 @Composable
-fun SignUpApp(
-    onSignUpClick: (String, String, String) -> Unit = { _, _, _ -> },
+fun RegisterApp(
+    onRegisterClick: (String, String, String) -> Unit = { _, _, _ -> },
     onNavigateToLogin: () -> Unit = {}
 ) {
     var name by remember { mutableStateOf("") }
@@ -52,27 +64,25 @@ fun SignUpApp(
             horizontalAlignment = Alignment.CenterHorizontally,
             verticalArrangement = Arrangement.Center
         ) {
+            // Logo e título (personalize com sua imagem se quiser)
             ImageLogo(R.drawable.mice_icon_purple)
             TextLogo()
             Spacer(modifier = Modifier.height(50.dp))
 
+            // Campos de entrada
             NameTextField(name) { name = it }
             EmailTextField(email) { email = it }
             PasswordTextField(password) { password = it }
 
-            SignUpConfirmButton(name, email, password) { name, email, pass ->
-                onSignUpClick(name, email, pass)
+            // Botão de confirmação
+            RegisterConfirmButton(name, email, password) { name, email, pass ->
+                onRegisterClick(name, email, pass)
             }
 
+            // Texto clicável para redirecionar para login
             LoginRedirectText { onNavigateToLogin() }
         }
     }
-}
-
-@Preview(showBackground = true, showSystemUi = true)
-@Composable
-fun SignUpPreview() {
-    SignUpApp()
 }
 
 @Composable
@@ -107,7 +117,7 @@ fun NameTextField(value: String, onValueChange: (String) -> Unit) {
 }
 
 @Composable
-fun SignUpConfirmButton(
+fun RegisterConfirmButton(
     name: String,
     email: String,
     password: String,
@@ -137,4 +147,10 @@ fun LoginRedirectText(onClick: () -> Unit) {
             .clickable { onClick() },
         textAlign = TextAlign.Center
     )
+}
+
+@Preview(showBackground = true, showSystemUi = true)
+@Composable
+fun RegisterPreview() {
+    RegisterApp()
 }
