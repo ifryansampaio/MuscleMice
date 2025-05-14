@@ -12,6 +12,6 @@ sealed class BottomNavItem(
     val label: String
 ) {
     object Home : BottomNavItem("home", Icons.Default.Home, "Início")
-    object Workout : BottomNavItem("start_workout", Icons.Default.FitnessCenter, "Treino")
-    object Timer : BottomNavItem("series_timer", Icons.Default.Timer, "Séries")
+    object Workout : BottomNavItem("workout", Icons.Default.FitnessCenter, "Treino")
+    object Timer : BottomNavItem("timer", Icons.Default.Timer, "Séries")
 }

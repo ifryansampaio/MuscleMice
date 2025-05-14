@@ -13,6 +13,11 @@
         android:theme="@style/Theme.MuscleMice"
         tools:targetApi="31">
         <activity
+            android:name=".ui.theme.WorkoutScreen"
+            android:exported="false"
+            android:label="@string/title_activity_workout_screen"
+            android:theme="@style/Theme.MuscleMice" />
+        <activity
             android:name=".BottomNavigatorBar"
             android:exported="false"
             android:label="@string/title_activity_bottom_navigator_bar"

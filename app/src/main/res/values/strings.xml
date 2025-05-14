@@ -7,4 +7,5 @@
     <string name="title_activity_app_navigation">AppNavigation</string>
     <string name="title_activity_bottom_nav_item">BottomNavItem</string>
     <string name="title_activity_bottom_navigator_bar">BottomNavigatorBar</string>
+    <string name="title_activity_workout_screen">WorkoutScreen</string>
 </resources>
